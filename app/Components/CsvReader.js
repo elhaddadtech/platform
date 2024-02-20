@@ -1,5 +1,5 @@
 "use client"
-
+import axios  from 'axios';
 import React, {useState, CSSProperties } from 'react';
 
 import { useCSVReader } from 'react-papaparse';
@@ -32,17 +32,18 @@ const styles = {
 };
 
  function CSVReader() {
-  const [data,setData] = useState([])
+  // const [data,setData] = useState([])
   const { CSVReader } = useCSVReader();
-
+  const AddData = async (data) =>{
+    const csv = await axios.post("http://localhost:3001/clients",data)
+  }
   return (
     <CSVReader
       onUploadAccepted={(results) => {
         console.log('---------------------------');
-        console.log(results.data);
-        setData(results.data)
-        // const DATA = JSON.stringify(results.data)
-        localStorage.setItem("Data",DATA)
+        console.log(results);
+        const resultObject = { "data" :JSON.stringify(results.data) }
+        AddData(resultObject)
         console.log('---------------------------');
       }}
     >
@@ -66,6 +67,7 @@ const styles = {
           </div>
           
           <ProgressBar  className="progress progress-primary text-center mt-8 w-56"   />
+      
         </>
       )}
     </CSVReader>
