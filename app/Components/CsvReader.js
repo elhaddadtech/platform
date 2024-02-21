@@ -42,7 +42,8 @@ const styles = {
       onUploadAccepted={(results) => {
         console.log('---------------------------');
         console.log(results);
-        const resultObject = { "data" :JSON.stringify(results.data) }
+        const records = results.data.map((record)=>{ return  {...record} })
+        const resultObject = { id:1,data :JSON.stringify(records) }
         AddData(resultObject)
         console.log('---------------------------');
       }}
