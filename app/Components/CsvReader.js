@@ -1,6 +1,7 @@
 "use client"
 import axios  from 'axios';
-import React, {useState, CSSProperties } from 'react';
+import React, {useState, CSSProperties, useRef } from 'react';
+import { Tb123 } from 'react-icons/tb';
 
 import { useCSVReader } from 'react-papaparse';
 
@@ -32,11 +33,27 @@ const styles = {
 };
 
  function CSVReader() {
-  // const [data,setData] = useState([])
+  const refFile = useRef(null)
+   const [fileName,setFileName] = useState('')
+  const[ pl,setPl ]=useState('Placement')
+  const[ cl,setCl ]=useState('Catalyst')
+  const[ lr,setLr ]=useState('Learner')
+  const[ br,setBr ]=useState('Builder')
   const { CSVReader } = useCSVReader();
-  const AddData = async (data) =>{
-    const csv = await axios.post("http://localhost:3001/clients",data)
+  const AddData = async (data,fileName) =>{
+
+    const table = fileName.substring(0, 9)==pl? pl : fileName.substring(0, 9)==cl ? cl :fileName.substring(0, 9)==lr ? lr:fileName.substring(0, 9)==br ? br:null //Finish Null Case
+      if (table !=null){
+        await axios.post(`http://localhost:3001/${table}`,data)
+        console.log('Finished');
+
+      }else{ alert('File Incorrect') }
+    console.log("fileName--AddData",table,data)
+    // const table = 
+    // const csv = await axios.post("http://localhost:3001/clients",data)
   }
+  
+ 
   return (
     <CSVReader
       onUploadAccepted={(results) => {
@@ -44,7 +61,11 @@ const styles = {
         console.log(results);
         const records = results.data.map((record)=>{ return  {...record} })
         const resultObject = { id:1,data :JSON.stringify(records) }
-        AddData(resultObject)
+        AddData(resultObject, refFile.current.name)
+        // setResult(resultObject)
+       
+     
+       
         console.log('---------------------------');
       }}
     >
@@ -56,11 +77,13 @@ const styles = {
       }) => (
         <>
           <div style={styles.csvReader} className='w-3/5 mx-auto text-center '>
-            <button type='button' {...getRootProps()} style={styles.browseFile}>
+            <button type='button' {...getRootProps()} style={styles.browseFile} name={acceptedFile && acceptedFile.name}  ref={refFile}>
               Browse file
             </button>
             <div style={styles.acceptedFile}>
-              {acceptedFile && acceptedFile.name}
+              {acceptedFile && acceptedFile.name }
+             
+      
             </div>
             <button {...getRemoveFileProps()} style={styles.remove}>
               Remove
@@ -68,6 +91,7 @@ const styles = {
           </div>
           
           <ProgressBar  className="progress progress-primary text-center mt-8 w-56"   />
+          
       
         </>
       )}
