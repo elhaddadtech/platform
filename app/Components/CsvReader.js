@@ -35,14 +35,15 @@ const styles = {
  function CSVReader() {
   const refFile = useRef(null)
    const [fileName,setFileName] = useState('')
+   const[ cl,setCl ]=useState('Catalyst')
   const[ pl,setPl ]=useState('Placement')
-  const[ cl,setCl ]=useState('Catalyst')
   const[ lr,setLr ]=useState('Learner')
   const[ br,setBr ]=useState('Builder')
   const { CSVReader } = useCSVReader();
   const AddData = async (data,fileName) =>{
-
-    const table = fileName.substring(0, 9)==pl? pl : fileName.substring(0, 9)==cl ? cl :fileName.substring(0, 9)==lr ? lr:fileName.substring(0, 9)==br ? br:null //Finish Null Case
+      // const splite = 
+      // console.log('FileName',refFile.current.name);
+    const table = fileName.substring(0, 9)==pl? pl : fileName.substring(0, 8)==cl ? cl :fileName.substring(0, 6)==lr ? lr:fileName.substring(0, 6)==br ? br:null //Finish Null Case
       if (table !=null){
         await axios.post(`http://localhost:3001/${table}`,data)
         console.log('Finished');
