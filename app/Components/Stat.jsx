@@ -3,7 +3,7 @@ import React, { useEffect ,useState,useRef} from 'react'
 
 //function Stat({props}) {
     // const [users,setUsers] = useState(props.users ? props.users : 0 )
-function Stat({users,activate,info,nonactivated}) {
+function Stat({users,activate,info=[],nonactivated}) {
     const [disUsers,setDisUsers] = useState({info})
     const modalRef = useRef(null);
 
@@ -30,20 +30,23 @@ function Stat({users,activate,info,nonactivated}) {
       <div className="stat-title">All Users</div>
      
       <div className="stat-value text-secondary"> {users ==0 ? <span className="loading loading-spinner text-info"></span> : users }  </div>
-      <div className="stat-desc text-secondary">↗︎ 40 (2%)</div>
+      <div className="stat-desc text-secondary">↗︎ (100  %)</div>
     </div>
     
     <div className="stat place-items-center">
       <div className="stat-title">Activated Users</div>
-      <div className="stat-value"> {activate ==0 ? <span className="loading loading-spinner text-info"></span> : (activate+info.length-1) }  </div>
+      <div className="stat-value"> {activate  ==0 ? <span className="loading loading-spinner text-info"></span> : (activate+info.length-1) }  </div>
+      {/* <div className="stat-value"> {activate ==  0 ? <span className="loading loading-spinner text-info"></span> : (activate+info.length-1) }  </div> */}
       <div className="stat-desc"></div>
     </div>
-    <div className="stat place-items-center cursor-pointer hover:bg-lime-300" title='Click To Display it !' onClick={openModal} >
+ 
+      <div className="stat place-items-center cursor-pointer hover:bg-lime-300" title='Click To Display it !' onClick={openModal} >
       {/* <div className="stat-title">Errors Rosetta Source File <div className="badge badge-secondary">+99</div></div> */}
       <div className="stat-title">Other Activated Users</div>
       <div className="stat-value"> {info.length ==0 ? <span className="loading loading-spinner text-info"></span> : info.length-1  }  </div>
       <div className="stat-desc"></div>
     </div>
+
 
 
 
