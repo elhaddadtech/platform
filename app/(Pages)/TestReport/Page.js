@@ -1,9 +1,13 @@
 import React from 'react'
+import Template from '../../Components/Template'
+import TestReport from './TestReport'
 
 function Page() {
   
   return (
-    <div>Page</div>
+    <div>
+      <Template content={<TestReport/>} />
+    </div>
   )
 }
 

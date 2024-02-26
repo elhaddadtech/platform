@@ -29,7 +29,7 @@ const Users = async (data) =>{
 }
 
 const getUsageReportData = async () =>{
-      const data = await axios.get("http://localhost:3001/clients")
+      const data = await axios.get("http://localhost:3001/Catalyst")
         setAllUsers(JSON.parse(data.data[0].data))
     // Appel les fonctions
         await Users(JSON.parse(data.data[0].data))

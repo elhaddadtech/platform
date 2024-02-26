@@ -42,7 +42,7 @@ const styles = {
   const { CSVReader } = useCSVReader();
   const AddData = async (data,fileName) =>{
 
-    const table = fileName.substring(0, 9)==pl? pl : fileName.substring(0, 9)==cl ? cl :fileName.substring(0, 9)==lr ? lr:fileName.substring(0, 9)==br ? br:null //Finish Null Case
+    const table = fileName.substring(0, 9)==pl? pl : fileName.substring(0, 7)==cl ? cl :fileName.substring(0, 9)==lr ? lr:fileName.substring(0, 9)==br ? br:null //Finish Null Case
       if (table !=null){
         await axios.post(`http://localhost:3001/${table}`,data)
         console.log('Finished');
