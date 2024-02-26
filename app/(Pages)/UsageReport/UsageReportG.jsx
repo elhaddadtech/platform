@@ -39,7 +39,7 @@ const ActivatedUsers = (data) => {
  
 const findByGroup = (e) =>{
   const fd =data.filter(element => {  return( element[4] != undefined && ([...element[4].split('_')][0].trim()).includes((e.target.value).trim()))})
-   console.log('Value is ' , e.target.value ) 
+   console.log('Value is ' ,typeof( e.target.value) ) 
     ActivatedUsers(fd)
    console.log('All data is  ' ,fd) 
   }
