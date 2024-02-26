@@ -71,7 +71,8 @@ useEffect(()=>{
 
   return (
     <div>
-      <Stat users={users} activate={activate} nonactivated={notActivated} info={errors}/>
+     <div className="text-center"> <Stat users={users} activate={activate} nonactivated={notActivated} info={errors} /></div>
+     <hr className="h-10 my-3" />
       <UsageReportG data={allUsers} />
     </div>
   )
