@@ -27,11 +27,12 @@ const ActivatedUsers = (data) => {
    const NotActivated1 = data?.map( (record) =>{if(record[14] =='' ){return record[3]}} )
    const NotActivated = NotActivated1.filter((rec)=> {return rec!== undefined })
    const TotalUsers = [...new Set(Activated ),...new Set(NotActivated)]
+   
    setTotal(TotalUsers.length)
    setActive(new Set(Activated ).size)
    setInaActive(new Set(NotActivated).size)
-   setLeveA(( (new Set(Activated ).size / TotalUsers.length) * 100).toFixed())
-   setLevelN(((new Set(NotActivated).size / TotalUsers.length) * 100).toFixed)
+   setLeveA( ( (new Set(Activated ).size / TotalUsers.length) * 100).toFixed() )
+   setLevelN(((new Set(NotActivated).size / TotalUsers.length) * 100).toFixed())
 
    console.log("Activated F" ,new Set(Activated ) );
    console.log('Not Active F' , new Set(NotActivated));
