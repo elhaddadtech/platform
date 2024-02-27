@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ProgressB from "../../Components/ProgressB"
 // import Stat from '../../Components/Stat'
 
-function UsageReportG({data}) {
+function UsageReportF({data}) {
     const [isSelected,setIsSelected] = useState(true)
     const [groups,setGroups] = useState([])
     const [total,setTotal] = useState(0)
@@ -13,7 +13,8 @@ function UsageReportG({data}) {
 const filterGroup = ()=>{
     const GroupSplited =[...new Set( data.map(rec => {if (rec[4] != undefined){return rec[4].split('_') }} ))]
     const Grps = (GroupSplited.filter(element => {return( element !== undefined )}))
-    const Groups = new Set( Grps.slice(1).map((gr,i) =>{ return gr[0]}))
+    const Groups = new Set( Grps.slice(1).map((gr,i) =>{ return (gr[0] + '_' + gr[1]) }))
+    console.log('GroupF' ,Groups);
     setGroups([...Groups])
    setIsSelected(false)
 
@@ -50,8 +51,8 @@ const ActivatedUsers = (data) => {
  
 const findByGroup = (e) =>{
   // const fd =data.filter(element => {  return( element[4] != undefined && ([...element[4].split('_')][0].trim()).includes((e.target.value).trim()))})
-  const fd =data.filter(element => {  return( element[4] != undefined && ([...element[4].toLowerCase().split('_')][0].trim()) == (e.target.value).toLowerCase().trim()) })
-   console.log('Value is ' ,typeof( e.target.value) ) 
+  const fd =data.filter(element => {  return( element[4] != undefined && ([...element[4].toLowerCase().split('_')][0]    +  '_' + [...element[4].toLowerCase().split('_')][1]) == (e.target.value).toLowerCase().trim()) })
+   console.log('Value is ' , e.target.value ) 
     ActivatedUsers(fd)
    console.log('All data is  ' ,fd) 
   }
@@ -62,7 +63,8 @@ useEffect(()=>{
   return (
     <div className='my-3 flex flex-col w-auto'> 
      
-     <div className="stat-title text-center">Filter By Faculte </div>
+
+          <div className="stat-title text-center"> Filter By Group </div>
           <div className=' stats shadow '>
                 <div className="stat place-items-center">
                 <div className="stat-title">Not Activated </div>
@@ -89,7 +91,7 @@ useEffect(()=>{
           <select className="select select-success w-full max-w-md mt-2"    onChange={findByGroup}>
         <option disabled selected = {true} value={"false"}>Pick your Faculte</option>
       {
-        groups.map((grp,i)=>{ return( <option  key={i}  value={grp}> {grp !==null && grp } </option>  )})
+        groups.sort().map((grp,i)=>{ return( <option  key={i}  value={grp}> {grp !==null && grp } </option>  )})
        }
        </select>
 
@@ -97,4 +99,4 @@ useEffect(()=>{
   )
 }
 
-export default UsageReportG
+export default UsageReportF
