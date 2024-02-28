@@ -2,14 +2,15 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import TestStat from '../../Components/TestStat'
-let dt =[]
+import TestReportG from './TestReportG'
+
 export default function TestReport() {
-  
+     const [allUsers,setAllusers]=useState([])
      const [langues,setLangues] = useState([])
     const getTestData =  async () =>{
-     const testData = await axios.get("http://localhost:3001/Placement")
-     dt =JSON.parse(testData.data[0].data)
-     console.log("testdata",dt)
+    const testData = await axios.get("http://localhost:3001/Placement")
+    setAllusers(JSON.parse(await testData.data[0].data))
+    const dt =JSON.parse(await testData.data[0].data)
      const lg= dt.map((lng) => { return lng[5] }
      )
      console.log("languages",lg)
@@ -29,6 +30,13 @@ useEffect(()=>{
   getTestData()},[])
     
   return (
-    <TestStat  langues={langues} data={dt}/>
+    <div>
+      <div className="d-block">
+      <TestReportG data={allUsers}/>
+      </div>
+      
+      <TestStat  langues={langues} data={allUsers}/>
+      </div>
+    
   )
 }
