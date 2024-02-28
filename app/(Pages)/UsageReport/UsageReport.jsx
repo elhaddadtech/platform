@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import UsageReportG from './UsageReportG'
+import UsageReportF from './UsageReportF'
 import axios from "axios"
 import Stat from "../../Components/Stat"
 function UsageReport() {
@@ -60,7 +61,7 @@ const findUsers = (e=[])=>{
   console.log("found users",infoUsers)
   setErrors(infoUsers)
 }
-useEffect(()=>{
+useEffect(  ()=>{
   getUsageReportData()
   // ActivatedUsers()
   const differentValues = dataa.filter(email => !allEmails.includes(email));
@@ -70,10 +71,14 @@ useEffect(()=>{
 
 
   return (
-    <div>
+    <div className="">
      <div className="text-center"> <Stat users={users} activate={activate} nonactivated={notActivated} info={errors} /></div>
      <hr className="h-10 my-3" />
+     <div className="flex flex-wrap justify-around items-center gap-4 ">
       <UsageReportG data={allUsers} />
+      <UsageReportF data={allUsers} />
+     
+     </div>
     </div>
   )
 }
