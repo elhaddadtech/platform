@@ -41,7 +41,7 @@ function TestStat({ langues, data }) {
       if (
         rec[4] != null &&
         rec[4] != "" &&
-        rec[0] == "Universite Cadi Ayyad - Marrakech"
+        rec[3] !== ""
       ) {
         return rec;
       }
