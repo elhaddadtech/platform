@@ -23,6 +23,7 @@ const filterGroup = ()=>{
 const ActivatedUsers = (data) => {
   console.log("Data Is " , data);
   const Activated1 = data?.map( (record) =>{if(record[14] !=='' && record[9] !=='' ){return record[3]}} )
+  const Activated11 = data?.map( (record) =>{if(record[14] !=='' && record[9] !=='' ){return record[3]}} )
   const Activated = Activated1.filter((rec)=> {return rec!== undefined })
  
   //  setActivate(Activated.length-1)
