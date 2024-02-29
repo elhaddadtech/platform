@@ -35,23 +35,18 @@ const styles = {
  function CSVReader() {
   const refFile = useRef(null)
    const [fileName,setFileName] = useState('')
-   const[ cl,setCl ]=useState('Catalyst')
-  const[ pl,setPl ]=useState('Placement')
-  const[ lr,setLr ]=useState('Learner')
-  const[ br,setBr ]=useState('Builder')
+   const [files,setFiles] = useState({"cl" : "Catalyst", "pl":"Placement","lr":"Learner","br":"Builder"})
   const { CSVReader } = useCSVReader();
   const AddData = async (data,fileName) =>{
-      // const splite = 
       // console.log('FileName',refFile.current.name);
-    const table = fileName.substring(0, 9)==pl? pl : fileName.substring(0, 8)==cl ? cl :fileName.substring(0, 6)==lr ? lr:fileName.substring(0, 6)==br ? br:null //Finish Null Case
-      if (table !=null){
+    const table = fileName.substring(0, 9)==files.pl? files.pl : fileName.substring(0,8)== files.cl ? files.cl :fileName.substring(0, 6)== files.lr ? files.lr:fileName.substring(0, 6)==files.br ? files.br:null //Finish Null Case
+        setTable(table)  
+    if (table !=null){
         await axios.post(`http://localhost:3001/${table}`,data)
         console.log('Finished');
 
       }else{ alert('File Incorrect') }
-    console.log("fileName--AddData",table,data)
-    // const table = 
-    // const csv = await axios.post("http://localhost:3001/clients",data)
+
   }
   
  
@@ -60,13 +55,22 @@ const styles = {
       onUploadAccepted={(results) => {
         console.log('---------------------------');
         console.log(results);
-        const records = results.data.map((record)=>{ return  {...record} })
-        const resultObject = { id:1,data :JSON.stringify(records) }
+        const data = [] ;
+        results.data.slice(1,(results.data.length - 4)).forEach(element => {
+          if (refFile.current.name.substring(0,8) == files.cl){
+            const catObj = { "Organization": element[0] , "LastName" : element[1], "FirstName" : element[2] , "Email" : element[3] , "Group": element[4] , "License": element[9] , "Profile" : element[14]  }
+                   data.push(catObj)
+          }else{
+            if (refFile.current.name.substring(0, 9) == files.pl){
+              const plObj = { "Organization": element[0] , "LastName" : element[1], "FirstName" : element[2] , "Email" : element[3] , "Group": element[4] , "Language": element[5] , "TestName" : element[6]  , "TimeSpentTest " : element[8] , "TestedFirst" : element[9],"TestResultFirst": element[10] }
+                    data.push(plObj)
+            }
+          }
+            
+        });
+        const resultObject = { id:1,data :data}
         AddData(resultObject, refFile.current.name)
         // setResult(resultObject)
-       
-     
-       
         console.log('---------------------------');
       }}
     >
