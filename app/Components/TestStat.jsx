@@ -1,7 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Selectt from "../Components/Selectt";
-function TestStat({ langues, data }) {
+import stat from '../(Pages)/TestReport/Functions'
+import Selectt from "./Selectt";
+import filterGroup from "../(Pages)/TestReport/FilterGroup";
+function TestStat({ languages, data ,Groups='',lge=''}) {
   const [langue, setLangue] = useState("");
   const [niveaux, setNiveaux] = useState();
   const [nbusers, setNbusers] = useState();
@@ -9,78 +11,53 @@ function TestStat({ langues, data }) {
   const [rsuccess, setRsuccess] = useState();
   const [failure, setFailure] = useState();
   const [totale, setTotale] = useState([]);
+ 
+
   const langueChoisie = (lg) => {
     return setLangue(lg);
   };
 
-  const fltrs = () => {
-    //==================Get Empty Records ================================///
-    const vd = data.map((rec) => {
-      if (rec[15] == "") {
-        return rec[3];
-      }
-    });
-    const vid = vd.filter((u) => {
-      return u !== undefined;
-    });
-    //========================================================================///
 
-    //==================Get All non Duplicated Records ================================///
-    const al = data.map((rec) => {
-      if (rec[3] !== "") {
-        return rec[3];
-      }
-    });
-    const all = al.filter((u) => {
-      return u !== undefined;
-    });
-    //==========================================================================//
+
+  const fltrs = () => {
+    setTotale(stat(data));
 
     //==================Get Levels ================================///
     const dt = data.filter((rec) => {
       if (
-        rec[4] != null &&
-        rec[4] != "" &&
-        rec[3] !== ""
+        rec.Group != null &&
+        rec.Group != "" &&
+        rec.Email !== ""
       ) {
         return rec;
       }
     });
 
     const usrs = dt.filter((rec) => {
-      return rec[15] !== "" && rec[5] == langue;
+      return rec.Level !== "" && rec.Language == langue;
     });
 
     const levels = usrs.map((u) => {
-      return u[15];
+      return u.Level;
     });
 
     const nvs = [...new Set(levels)].sort();
     setNiveaux(nvs);
     /////////////////////////////////////////////////////////////////////////////////
 
-    //================Set Total Of Different Records ===============///
-    const total = [];
-
-    const vides = [...new Set(vid)];
-    const allUsers = [...new Set(all)];
-    total[0] = allUsers.length;
-    total[1] = vides.length;
-    total[2] = total[0] - total[1];
-    setTotale(total);
-
-    //========================================================//
-
+ 
     //========================Get Number of Users Filtered By language and Level========================///
     const usersByLevel = (langue, niveau) => {
       const ubl = data.map((u) => {
-        if (u[5] == langue && u[15] == niveau) {
-          return u[3];
+        if (u.Language == langue && u.Level == niveau) {
+          return u.Email;
         }
       });
+      console.log("ubl",ubl)
       const ubls = ubl.filter((u) => {
         return u != undefined;
       });
+      console.log("ubls",ubls)
       const array = [...new Set(ubls)];
       return array.length;
     };
@@ -89,8 +66,8 @@ function TestStat({ langues, data }) {
     //========================Get Number of users Filtered By Success factor(Test Results >=200) ========================///
     const Sc = (langue, niveau) => {
       const ubl = data.map((u) => {
-        if (u[5] == langue && u[15] == niveau && parseInt(u[10]) >= 200) {
-          return u[3];
+        if (u.Language == langue && u.Level == niveau && parseInt(u.TestResultFirst) >= 200) {
+          return u.Email;
         }
       });
       const ubls = ubl.filter((u) => {
@@ -120,11 +97,13 @@ function TestStat({ langues, data }) {
     //===========================================================================///
 
     /////////////////////////Console //////////////////////////
-    console.log("initial data", data);
+   /* console.log("all users",allUsers)
+    /*console.log("initial data", data);
     console.log("usersbY Group (Not Null,UCA,Not Empty", [...new Set(dt)]);
-    console.log("Choosed Language", langue);
-    console.log("Users Filtered by Language and level", arr);
-    console.log("Users in Current language", usrs);
+    console.log("Choosed Language", langue);*/
+   /* console.log("langue ",langue)
+    console.log("Users Filtered by Language and level", arr);*/
+    /*console.log("Users in Current language", usrs);
     console.log("level of user in current language", levels);
 
     console.log("Levels", niveaux);
@@ -132,9 +111,11 @@ function TestStat({ langues, data }) {
     console.log("With language level  Record Empty", [...new Set(vid)]);
     console.log("Success Statistics:", arr1);
     console.log("all non duplicated users", [...new Set(all)]); //ALL USERS
+    */
   };
 
   useEffect(() => {
+    stat(),
     fltrs();
   }, [langue]);
   return (
@@ -170,7 +151,7 @@ function TestStat({ langues, data }) {
               {" "}
               <Selectt
                 setter={langueChoisie}
-                data={langues}
+                data={languages}
                 name={"langue"}
               />{" "}
             </th>
@@ -182,7 +163,7 @@ function TestStat({ langues, data }) {
             <th>Réussite Résultats Test</th>
             <th>Taux de Réussite</th>
             <th>Taux d'Echec</th>
-            <th>Moyen Générale Université</th>
+            
           </tr>
         </thead>
         <tbody>
@@ -190,45 +171,45 @@ function TestStat({ langues, data }) {
             <th></th>
 
             <th>
-              {niveaux?.map((niveau) => {
+              {niveaux?.map((niveau,i) => {
                 return (
-                  <tr>
+                  <tr key={i}>
                     <td>{niveau}</td>
                   </tr>
                 );
               })}
             </th>
             <th>
-              {nbusers?.map((nbuser) => {
+              {nbusers?.map((nbuser,i) => {
                 return (
-                  <tr>
+                  <tr key={i}>
                     <td>{nbuser}</td>
                   </tr>
                 );
               })}
             </th>
             <th>
-              {success?.map((succes) => {
+              {success?.map((succes,i) => {
                 return (
-                  <tr>
+                  <tr key={i}>
                     <td>{succes}</td>
                   </tr>
                 );
               })}
             </th>
             <th>
-              {rsuccess?.map((succes) => {
+              {rsuccess?.map((succes,i) => {
                 return (
-                  <tr>
+                  <tr key={i}>
                     <td>{succes.toFixed()}%</td>
                   </tr>
                 );
               })}
             </th>
             <th>
-              {failure?.map((f) => {
+              {failure?.map((f,i) => {
                 return (
-                  <tr>
+                  <tr key={i}>
                     <td>{f.toFixed()}%</td>
                   </tr>
                 );
@@ -237,6 +218,8 @@ function TestStat({ langues, data }) {
           </tr>
         </tbody>
       </table>
+
+      
     </div>
   );
 }

@@ -31,11 +31,12 @@ const styles = {
     backgroundColor: 'red',
   } ,
 };
-/////comment
+
  function CSVReader() {
   const refFile = useRef(null)
    const [fileName,setFileName] = useState('')
    const [files,setFiles] = useState({"cl" : "Catalyst", "pl":"Placement","lr":"Learner","br":"Builder"})
+   const [table,setTable]=useState(null)
   const { CSVReader } = useCSVReader();
   const AddData = async (data,fileName) =>{
       // console.log('FileName',refFile.current.name);
@@ -62,7 +63,7 @@ const styles = {
                    data.push(catObj)
           }else{
             if (refFile.current.name.substring(0, 9) == files.pl){
-              const plObj = { "Organization": element[0] , "LastName" : element[1], "FirstName" : element[2] , "Email" : element[3] , "Group": element[4] , "Language": element[5] , "TestName" : element[6]  , "TimeSpentTest " : element[8] , "TestedFirst" : element[9],"TestResultFirst": element[10] }
+              const plObj = { "Organization": element[0] , "LastName" : element[1], "FirstName" : element[2] , "Email" : element[3] , "Group": element[4] , "Language": element[5] , "TestName" : element[6]  , "TimeSpentTest " : element[8] , "Level" : element[15],"TestResultFirst": element[10] }
                     data.push(plObj)
             }
           }
