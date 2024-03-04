@@ -28,6 +28,7 @@ const  stat =(data=[])=>{
       total[0] = allUsers.length;
       total[1] = vides.length;
       total[2] = total[0] - total[1];
+      console.log('qui n ont passé le test',vides)
       
   return total
       //========================================================//

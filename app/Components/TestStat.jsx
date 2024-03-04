@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import stat from '../(Pages)/TestReport/Functions'
+import stat from '../(Pages)/TestReport/Stat'
 import Selectt from "./Selectt";
 import filterGroup from "../(Pages)/TestReport/FilterGroup";
 function TestStat({ languages, data ,Groups='',lge=''}) {
@@ -119,28 +119,28 @@ function TestStat({ languages, data ,Groups='',lge=''}) {
     fltrs();
   }, [langue]);
   return (
-    <div className="overflow-x-auto">
-      <div className="stats shadow ">
+    <div className="overflow-x-auto text-center">
+      <div className="stats shadow mb-5">
         <div className="stat place-items-center">
           <div className="stat-title">Tous les Utilisateurs</div>
           <div className="stat-value">{totale[0]}</div>
-          <div className="stat-desc">From January 1st to February 1st</div>
+          <div className="stat-desc"></div>
         </div>
 
         <div className="stat place-items-center">
           <div className="stat-title">
-            Utilisateurs qui n'ont pas passé le test
+            Test non Effectué
           </div>
           <div className="stat-value text-secondary">{totale[1]}</div>
-          <div className="stat-desc text-secondary">↗︎ 40 (2%)</div>
+          <div className="stat-desc text-secondary"></div>
         </div>
 
         <div className="stat place-items-center">
           <div className="stat-title">
-            Utilisateurs qui ont pas passé le test
+          Test Effectué
           </div>
           <div className="stat-value">{totale[2]}</div>
-          <div className="stat-desc">↘︎ 90 (14%)</div>
+          <div className="stat-desc"></div>
         </div>
       </div>
 
@@ -160,7 +160,7 @@ function TestStat({ languages, data ,Groups='',lge=''}) {
               <th> Niveau Actuel </th>{" "}
             </th>
             <th>Nombre Utilisateurs</th>
-            <th>Réussite Résultats Test</th>
+            <th>Réussite Résultats Test {'( >=200/400)'}</th>
             <th>Taux de Réussite</th>
             <th>Taux d'Echec</th>
             
